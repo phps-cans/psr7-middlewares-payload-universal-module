@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Psr7Middlewares\\Middleware\\": "src/"
+            " PsCs\\UniversalModule\\Psr7Middlewares\\Middleware\\": "src/"
         }
     }
 }
