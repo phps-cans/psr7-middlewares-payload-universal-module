@@ -4,6 +4,7 @@ namespace PsCs\UniversalModule\Psr7Middlewares\Middleware;
 use Interop\Container\ServiceProvider;
 use Interop\Container\ContainerInterface as Container;
 use Psr7Middlewares\Middleware\Payload;
+use TheCodingMachine\MiddlewareListServiceProvider;
 use TheCodingMachine\MiddlewareOrder;
 
 class PayloadServiceProvider implements ServiceProvider {
@@ -19,14 +20,14 @@ class PayloadServiceProvider implements ServiceProvider {
         return new Payload();
     }
 
-    public static function updatePriorityQueue(ContainerInterface $container, callable $previous = null) : \SplPriorityQueue
+    public static function updatePriorityQueue(Container $container, callable $previous = null) : \SplPriorityQueue
     {
         if ($previous) {
             $priorityQueue = $previous();
             $priorityQueue->insert($container->get(Payload::class), MiddlewareOrder::UTILITY_EARLY);
             return $priorityQueue;
         } else {
-            throw new InvalidArgumentException("Could not find declaration for service '".MiddlewareListServiceProvider::MIDDLEWARES_QUEUE."'.");
+            throw new \InvalidArgumentException("Could not find declaration for service '".MiddlewareListServiceProvider::MIDDLEWARES_QUEUE."'.");
         }
     }
 
