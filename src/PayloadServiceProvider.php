@@ -2,35 +2,20 @@
 
 namespace PsCs\UniversalModule\Psr7Middlewares\Middleware;
 
-use Interop\Container\ServiceProvider;
-use Interop\Container\ContainerInterface as Container;
 use Psr7Middlewares\Middleware\Payload;
+use TheCodingMachine\Funky\Annotations\Factory;
+use TheCodingMachine\Funky\Annotations\Tag;
+use TheCodingMachine\Funky\ServiceProvider;
 use TheCodingMachine\MiddlewareListServiceProvider;
 use TheCodingMachine\MiddlewareOrder;
 
-class PayloadServiceProvider implements ServiceProvider
+class PayloadServiceProvider extends ServiceProvider
 {
-    public function getServices()
-    {
-        return [
-        Payload::class => [ self::class, 'createPayload' ],
-        MiddlewareListServiceProvider::MIDDLEWARES_QUEUE => [self::class, 'updatePriorityQueue'],
-    ];
-    }
-
+    /**
+     * @Factory(tags={@Tag(name=MiddlewareListServiceProvider::MIDDLEWARES_QUEUE, priority=MiddlewareOrder::UTILITY_EARLY)})
+     */
     public static function createPayload() : Payload
     {
         return new Payload();
-    }
-
-    public static function updatePriorityQueue(Container $container, callable $previous = null) : \SplPriorityQueue
-    {
-        if ($previous) {
-            $priorityQueue = $previous();
-            $priorityQueue->insert($container->get(Payload::class), MiddlewareOrder::UTILITY_EARLY);
-            return $priorityQueue;
-        } else {
-            throw new \InvalidArgumentException("Could not find declaration for service '".MiddlewareListServiceProvider::MIDDLEWARES_QUEUE."'.");
-        }
     }
 }

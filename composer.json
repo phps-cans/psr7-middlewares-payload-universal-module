@@ -12,9 +12,9 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=7.1",
         "oscarotero/psr7-middlewares": "^3.0",
-        "container-interop/service-provider": "~0.3.0",
+        "thecodingmachine/funky": "^1",
         "container-interop/container-interop": "^1.0",
         "thecodingmachine/middleware-list-universal-module": "~1.0"
     },
@@ -22,5 +22,7 @@
         "psr-4": {
             "PsCs\\UniversalModule\\Psr7Middlewares\\Middleware\\": "src/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
